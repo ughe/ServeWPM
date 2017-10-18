@@ -17,6 +17,7 @@ RUN echo Y | sudo ./install.sh
 RUN apt-get install -y xfonts-scalable xfonts-100dpi xfonts-75dpi xfonts-cyrillic
 
 # Add & Install ServeWPM
+RUN apt-get install -y python-pip
 ADD ServeWPM $INSTALL/ServeWPM/
 WORKDIR $INSTALL/ServeWPM/
 RUN sudo pip install -U -r requirements.txt
@@ -29,3 +30,4 @@ CMD Xvfb :99 -screen 0 1024x768x16 2>/dev/null >/dev/null & \
 
 # Web server port
 EXPOSE 8000
+
