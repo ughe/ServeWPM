@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nnc1v3o*$%u!pwxgm&3agkefi0pxsokzfnlzw#ond!do2nutu1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '*.elasticbeanstalk.com']
 
 
 # Application definition
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'data',
+    'framework',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +80,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'framework': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'framework/results/crawl-data.sqlite'),
+    },
 }
+
+DATABASE_ROUTERS = ['framework.router.FrameworkRouter']
 
 
 # Password validation
@@ -105,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
@@ -118,3 +127,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Jupyter Notebooks
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0',
+    '---port', '8888',
+    '--no-browser',
+]
+
+# Docker openwpm image settings
+# FRAMEWORK_PATH = '/opt/OpenWPM/'
