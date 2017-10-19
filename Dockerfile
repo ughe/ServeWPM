@@ -1,33 +1,35 @@
-FROM ubuntu:14.04
+FROM python:2
 
-# ENV variables
-ENV INSTALL /opt/app
-ENV INSTALL_OPEN /opt/app/OpenWPM/
-ENV INSTALL_SERVE /opt/app/ServeWPM/
-ENV DISPLAY :99
-RUN export DISPLAY
+# ENV variable
+ENV INSTALL /opt/app/ServeWPM
+ENV NOTEBOOKS /opt/app/notebooks
+# Jupyter Config File
+ENV JUPYTER_CONFIG_DIR $INSTALL
 
-# Add & Install OpenWPM
-RUN apt-get update -y
-RUN apt-get install -y git
-RUN git clone https://github.com/citp/OpenWPM $INSTALL/OpenWPM/
-WORKDIR $INSTALL/OpenWPM/
-RUN echo Y | sudo ./install.sh
-# Missing Xvfb fonts
-RUN apt-get install -y xfonts-scalable xfonts-100dpi xfonts-75dpi xfonts-cyrillic
+# sqlite3 libsqlite3-dev apt-get
 
 # Add & Install ServeWPM
-RUN apt-get install -y python-pip
-ADD ServeWPM $INSTALL/ServeWPM/
-WORKDIR $INSTALL/ServeWPM/
-RUN sudo pip install -U -r requirements.txt
+ADD ServeWPM $INSTALL
+WORKDIR $INSTALL
+RUN pip install -U -r requirements.txt
 
-# Run Script
-CMD Xvfb :99 -screen 0 1024x768x16 2>/dev/null >/dev/null & \
+# Djanga Migrations
+RUN python $INSTALL/manage.py makemigrations
+RUN python $INSTALL/manage.py migrate
+RUN echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('admin', 'admin@example.com', 'password')" | python manage.py shell
+
+# Jupyter
+RUN mkdir $NOTEBOOKS || true
+
+# Run
+CMD cd $NOTEBOOKS && \
+    python $INSTALL/manage.py shell_plus --notebook & \
+    cd $INSTALL && \
     gunicorn ServeWPM.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3
 
-# Web server port
+# Http port
 EXPOSE 8000
+EXPOSE 8888
 

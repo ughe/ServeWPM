@@ -25,7 +25,7 @@ SECRET_KEY = 'nnc1v3o*$%u!pwxgm&3agkefi0pxsokzfnlzw#ond!do2nutu1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*.us-east-1.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition
@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'data',
-    'framework',
+    # 'framework',
+    # 'django_rest_framework',
+    # 'storages',
 ]
 
 MIDDLEWARE = [
@@ -81,13 +83,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'framework': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'framework/results/crawl-data.sqlite'),
-    },
+    # 'framework': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'crawl-data.sqlite'),
+    # },
 }
 
-DATABASE_ROUTERS = ['framework.router.FrameworkRouter']
+# DATABASE_ROUTERS = ['framework.router.FrameworkRouter']
 
 
 # Password validation
@@ -128,12 +130,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Jupyter Notebooks
-NOTEBOOK_ARGUMENTS = [
-    '--ip', '0.0.0.0',
-    '---port', '8888',
-    '--no-browser',
-]
-
-# Docker openwpm image settings
-# FRAMEWORK_PATH = '/opt/OpenWPM/'
+# Jupyter
+# NOTEBOOK_ARGUMENTS = [
+#     '--ip', '0.0.0.0',
+#     '--port', '8888',
+# ]
