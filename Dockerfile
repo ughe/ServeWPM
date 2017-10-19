@@ -32,18 +32,16 @@ ADD notebooks $NOTEBOOKS
 RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
 RUN python $INSTALL/ServeWPM/manage.py makemigrations
 RUN python $INSTALL/ServeWPM/manage.py migrate
-RUN echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('mI3XFHRcANR1zoMzdVczzfOTXeVqQxz', 'admin@example.com', 'synthetics1126599/commencements')" | python manage.py shell
 
 # Run
-CMD Xvfb :99 -screen 0 1024x768x16 2>/dev/null >/dev/null & \
+CMD Xvfb :99 -screen 0 1366x768x16 2>/dev/null >/dev/null & \
+    PATH=$PATH:$FRAMEWORK/firefox-bin && \
     cd $NOTEBOOKS && \
     python $INSTALL/ServeWPM/manage.py shell_plus --notebook & \
-    cd $INSTALL/ServeWPM && \
     gunicorn ServeWPM.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3
 
 # Http port
-EXPOSE 8000
-EXPOSE 8888
+EXPOSE 8888 8000
 

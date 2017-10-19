@@ -25,7 +25,7 @@ SECRET_KEY = 'nnc1v3o*$%u!pwxgm&3agkefi0pxsokzfnlzw#ond!do2nutu1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*.us-east-1.elasticbeanstalk.com', '127.0.0.1']
+ALLOWED_HOSTS = ['servewpm.us-east-1.elasticbeanstalk.com', 'openwpm.us-east-1.elasticbeanstalk.com', '*.us-east-1.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition

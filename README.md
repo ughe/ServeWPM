@@ -1,32 +1,40 @@
 # ServeWPM
-ServeWPM is a docker image that runs OpenWPM.
+ServeWPM is a docker image for running [OpenWPM](https://github.com/citp/OpenWPM).
 
 ## Warning:
-Do not push this image to any aws instance as the jupyter configuration has major security vulnerabilities. It is possible to just package up the OpenWPM part in a docker container, which would be more safe.
+ServeWPM is fine for local linux development. It is not advised to deploy online without caution. Security concerns include Jupyter Notebook's root access, preset passwords, and certificates. 
 
 ## Compontents
-There are three main components: the [OpenWPM framework](https://github.com/citp/OpenWPM), the Django ORM layer, and the IPython Jupyter Notebook.
+There are three main components: the [OpenWPM framework](https://github.com/citp/OpenWPM), the IPython Jupyter Notebook, and the Django ORM layer.
 
 # Building the image
-This step may take as long as ten minutes.
+This step can take 10 minutes without any caching.
 ```bash
 git clone https://github.com/ughe/ServeWPM && cd ServeWPM
 docker build -t servewpm .
 ```
 
-# Downloading the image
-This may be significantly faster
-```bash
-git clone https://github.com/ughe/ServeWPM/releases/1/servewpm.tar
-docker load servewpm.tar
-```
-
 # Running the docker container
+This deploys the Jupyter notebook to Port 80 and the Django server to Port 8000.
 ```bash
-docker run -p 8000:8000 -p 8888:8888 servewpm
+docker run -p 80:8888 -p 8000:8000 servewpm
 ```
 
-## What I get locally:
+## Tutorial
+Open [127.0.0.1/tree](127.0.0.1/tree) and then open the `README.ipynb` file. Press shift-enter to execute an IPython cell. Executing the first program in the notebook will run OpenWPM. After it is finished running (expect less than a minute), the next steps load the output file `crawl-data.sqlite` into the Django ORM folder.
+
+## Logging In
+Jupyter Notebook: [127.0.0.1/tree](127.0.0.1/tree)
+Django Admin: [127.0.0.1:8000/admin](127.0.0.1:8000/admin)
+
+Once the docker container is running, go to [jupyter localhost](127.0.0.1/tree). You will be prompted to enter the password `phosphoric3:historiographically`. This can be reset in the `ServeWPM/jupyter_notebook_config.py` file. To create a superuser for the [django side](127.0.0.1:8000/admin), create a new IPython notebook by clicking `New` and `Django Shell-Plus`. Next copy and paste this code, then press shift-enter to execute it:
+
+```python
+from django.contrib.auth.models import User
+User.objects.create_superuser('admin', 'admin@example.com', 'synthetics1126599/commencements')
+```
+
+## Example bash output:
 ```bash
 $ docker run -p 8000:8000 -p 8888:8888 servewpm
 [2017-10-19 07:36:27 +0000] [7] [INFO] Starting gunicorn 19.7.1
@@ -43,5 +51,9 @@ $ docker run -p 8000:8000 -p 8888:8888 servewpm
 [I 02:36:28.197 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
 
-# Tutorial
-Once you have the docker container running, go to [127.0.0.1:8888](127.0.0.1:8888) and log into the Jupyter notebook interface. From there, open the `README.ipynb` and run the `demo.py` program.
+# Downloading the image
+This may be significantly faster (instead of building the image).
+```bash
+git clone https://github.com/ughe/ServeWPM/releases/tag/v0.1.0/servewpm.tar
+docker load servewpm.tar
+```
