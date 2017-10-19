@@ -32,7 +32,7 @@ ADD notebooks $NOTEBOOKS
 RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
 RUN python $INSTALL/ServeWPM/manage.py makemigrations
 RUN python $INSTALL/ServeWPM/manage.py migrate
-RUN echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('admin', 'admin@example.com', 'password')" | python manage.py shell
+RUN echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('mI3XFHRcANR1zoMzdVczzfOTXeVqQxz', 'admin@example.com', 'synthetics1126599/commencements')" | python manage.py shell
 
 # Run
 CMD Xvfb :99 -screen 0 1024x768x16 2>/dev/null >/dev/null & \
