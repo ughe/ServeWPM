@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'data',
-    'framework',
+    'export',
     # 'django_rest_framework',
     # 'storages',
 ]
@@ -83,13 +83,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'import': {
+    'export': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/opt/app/notebooks/import/crawl-data.sqlite',
+        'NAME': '/opt/app/notebooks/export/crawl-data.sqlite',
     },
 }
 
-DATABASE_ROUTERS = ['import.router.ImportRouter']
+DATABASE_ROUTERS = ['export.router.ExportRouter']
 
 
 # Password validation
