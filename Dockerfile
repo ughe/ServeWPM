@@ -29,7 +29,7 @@ RUN pip install -U -r requirements.txt
 ADD notebooks $NOTEBOOKS
 
 # Djanga Migrations
-# RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
+RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
 RUN python $INSTALL/ServeWPM/manage.py makemigrations
 RUN python $INSTALL/ServeWPM/manage.py migrate
 RUN echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('admin', 'admin@example.com', 'password')" | python manage.py shell
