@@ -83,13 +83,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    # 'framework': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'crawl-data.sqlite'),
-    # },
+    'import': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/opt/app/notebooks/import/crawl-data.sqlite',
+    },
 }
 
-# DATABASE_ROUTERS = ['framework.router.FrameworkRouter']
+DATABASE_ROUTERS = ['import.router.ImportRouter']
 
 
 # Password validation
@@ -128,10 +128,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATIC_ROOT = '/opt/app/ServeWPM/assets/'
 STATIC_URL = '/static/'
-
-# Jupyter
-# NOTEBOOK_ARGUMENTS = [
-#     '--ip', '0.0.0.0',
-#     '--port', '8888',
-# ]

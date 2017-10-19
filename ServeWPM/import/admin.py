@@ -6,16 +6,16 @@ from django.contrib import admin
 from .models import *
 
 __all__ = [
-    Crawl,
-    Crawlhistory,
-    FlashCookie,
-    HttpRequest,
-    HttpResponse,
-    Localstorage,
-    ProfileCookie,
-    SiteVisit,
-    Task,
-    Xpath,
+    ImportCrawl,
+    ImportCrawlHistory,
+    ImportFlashCookie,
+    ImportHttpRequest,
+    ImportHttpResponse,
+    ImportLocalstorage,
+    ImportProfileCookie,
+    ImportSiteVisit,
+    ImportTask,
+    ImportXpath,
 ]
 #     HttpRequestCookie,
 #     HttpResponseCookie,

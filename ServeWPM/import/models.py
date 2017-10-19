@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class Crawlhistory(models.Model):
+class ImportCrawlHistory(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     command = models.TextField()
     arguments = models.TextField()
@@ -22,7 +22,7 @@ class Crawlhistory(models.Model):
         db_table = 'CrawlHistory'
 
 
-class Crawl(models.Model):
+class ImportCrawl(models.Model):
     task = models.ForeignKey('Task', models.PROTECT)
     browser_params = models.TextField()
     screen_res = models.TextField()
@@ -35,7 +35,7 @@ class Crawl(models.Model):
         db_table = 'crawl'
 
 
-class FlashCookie(models.Model):
+class ImportFlashCookie(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     visit = models.ForeignKey('SiteVisit', on_delete=models.PROTECT)
     domain = models.CharField(max_length=500)
@@ -49,7 +49,7 @@ class FlashCookie(models.Model):
         db_table = 'flash_cookies'
 
 
-class HttpRequest(models.Model):
+class ImportHttpRequest(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     visit = models.ForeignKey('SiteVisit', on_delete=models.PROTECT)
     url = models.TextField()
@@ -75,7 +75,7 @@ class HttpRequest(models.Model):
         db_table = 'http_requests'
 
 
-class HttpResponse(models.Model):
+class ImportHttpResponse(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     visit = models.ForeignKey('SiteVisit', on_delete=models.PROTECT)
     url = models.TextField()
@@ -94,7 +94,7 @@ class HttpResponse(models.Model):
         db_table = 'http_responses'
 
 
-class Localstorage(models.Model):
+class ImportLocalstorage(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     page_url = models.CharField(max_length=500)
     scope = models.TextField()
@@ -106,7 +106,7 @@ class Localstorage(models.Model):
         db_table = 'localStorage'
 
 
-class ProfileCookie(models.Model):
+class ImportProfileCookie(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     visit = models.ForeignKey('SiteVisit', on_delete=models.PROTECT)
     basedomain = models.TextField(db_column='baseDomain')  # Field name made lowercase.
@@ -125,7 +125,7 @@ class ProfileCookie(models.Model):
         db_table = 'profile_cookies'
 
 
-class SiteVisit(models.Model):
+class ImportSiteVisit(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     site_url = models.CharField(max_length=500)
 
@@ -134,7 +134,7 @@ class SiteVisit(models.Model):
         db_table = 'site_visits'
 
 
-class Task(models.Model):
+class ImportTask(models.Model):
     start_time = models.DateTimeField()
     manager_params = models.TextField()
     openwpm_version = models.TextField()
@@ -145,7 +145,7 @@ class Task(models.Model):
         db_table = 'task'
 
 
-class Xpath(models.Model):
+class ImportXpath(models.Model):
     name = models.CharField(max_length=100)
     url = models.CharField(max_length=500)
     xpath = models.CharField(max_length=500)

@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class Crawlhistory(models.Model):
+class CrawlHistory(models.Model):
     crawl = models.ForeignKey('Crawl', on_delete=models.PROTECT)
     command = models.TextField()
     arguments = models.TextField()
@@ -18,7 +18,6 @@ class Crawlhistory(models.Model):
     dtg = models.DateTimeField()
 
     class Meta:
-        managed = False
         db_table = 'CrawlHistory'
 
 
@@ -31,7 +30,6 @@ class Crawl(models.Model):
     start_time = models.DateTimeField()
 
     class Meta:
-        managed = False
         db_table = 'crawl'
 
 
@@ -45,7 +43,6 @@ class FlashCookie(models.Model):
     content = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'flash_cookies'
 
 
@@ -71,7 +68,6 @@ class HttpRequest(models.Model):
     time_stamp = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'http_requests'
 
 
@@ -90,7 +86,6 @@ class HttpResponse(models.Model):
     content_hash = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'http_responses'
 
 
@@ -102,7 +97,6 @@ class Localstorage(models.Model):
     value = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'localStorage'
 
 
@@ -121,7 +115,6 @@ class ProfileCookie(models.Model):
     ishttponly = models.IntegerField(db_column='isHttpOnly')  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'profile_cookies'
 
 
@@ -130,7 +123,6 @@ class SiteVisit(models.Model):
     site_url = models.CharField(max_length=500)
 
     class Meta:
-        managed = False
         db_table = 'site_visits'
 
 
@@ -141,7 +133,6 @@ class Task(models.Model):
     browser_version = models.TextField()
 
     class Meta:
-        managed = False
         db_table = 'task'
 
 
@@ -153,6 +144,5 @@ class Xpath(models.Model):
     ctime = models.DateTimeField()
 
     class Meta:
-        managed = False
         db_table = 'xpath'
         unique_together = (('name', 'url'),)

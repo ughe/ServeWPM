@@ -1,15 +1,15 @@
-class FrameworkRouter(object):
+class ImportRouter(object):
     
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'framework':
-            return 'framework'
+        if model._meta.app_label == 'import':
+            return 'import'
         return None
 
     def db_for_write(self, model, **hints):
         return False
 
     def allow_relation(self, obj1, obj2, **hints):
-        return (obj1._meta.app_label == obj2._meta.app_label == 'framework')
+        return (obj1._meta.app_label == obj2._meta.app_label == 'import')
 
     def allow_syncdb(self, db, model):
         return False

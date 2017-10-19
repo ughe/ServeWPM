@@ -7,7 +7,7 @@ from .models import *
 
 __all__ = [
     Crawl,
-    Crawlhistory,
+    CrawlHistory,
     FlashCookie,
     HttpRequest,
     HttpResponse,
