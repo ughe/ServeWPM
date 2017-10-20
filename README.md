@@ -15,7 +15,7 @@ docker load servewpm.tar
 ```
 
 # Building the image
-This step can take 10 minutes without any caching.
+This step can take more than 10 minutes without any caching.
 ```bash
 git clone https://github.com/ughe/ServeWPM && cd ServeWPM
 docker build -t servewpm .
@@ -58,6 +58,6 @@ Run this command next in the notebook to start the server:
 ```
 !gunicorn ServeWPM.wsgi:application --bind 0.0.0.0:8000 --workers 3
 ```
-Finally, go to the 8000 port (i.e. [127.0.0.1:8000](127.0.0.1:8000)) and log in.
+Finally, go to admin on the 8000 port (i.e. [127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)) and log in.
 
 For reference, the models were generated with `python $JUPYTER_CONFIG_DIR/manage.py inspectdb > $JUPYTER_CONFIG_DIR/export/models.py`. The output file `models.py` needs to be edited to conform to Django's rules about `id`'s.

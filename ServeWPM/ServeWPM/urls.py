@@ -17,10 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.core.urlresolvers import reverse
-from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url=reverse('admin:index')))
+    url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # This is not suitable for production use! For some common deployment strategies, see Deploying static files.
