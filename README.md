@@ -7,13 +7,6 @@ ServeWPM is fine for local development. It is not advised to deploy online witho
 ## Compontents
 There are three main components: the [OpenWPM](https://github.com/citp/OpenWPM) framework, the Jupyter Notebook server used to run the tests, and the Django ORM (Object-Relational Mapping) layer for working with OpenWPM's output.
 
-# Downloading the image
-This is much faster than building the image.
-```bash
-git clone https://github.com/ughe/ServeWPM/releases/tag/v0.1.0/servewpm.tar
-docker load servewpm.tar
-```
-
 # Building the image
 This step can take more than 10 minutes without any caching.
 ```bash
@@ -27,12 +20,12 @@ This deploys the Jupyter notebook to Port 80. Also opens port 8000.
 docker run -p 80:8888 -p 8000:8000 servewpm
 ```
 
-## Tutorial
+# Tutorial
 Go to the URL (i.e. [127.0.0.1](127.0.0.1/)), and open the `README.ipynb` Jupyter notebook. The notebook starts by running a version of the `demo.py` example program from OpenWPM. Once the website tests are run, the tutorial continues with examining the output files in a directory called `$PROJECT_NAME/`.
 
 N.B.: The password is `phosphoric3:historiographically` and the hash is set in the `ServeWPM/jupyter_notebook_config.py` file.
 
-## Image Structure
+# Structure
 The docker image creates three primary sibling directories: `OpenWPM`, the OpenWPM files; `ServeWPM`, the Django server with Jupyter integration; and `notebooks`, where all of the files are kept. 
 
 In `notebooks`, there is a special directory called `exports` where Django looks for the `crawl-data.sqlite` file.
@@ -44,7 +37,7 @@ sys.path.insert(0, os.environ['FRAMEWORK'])
 from automation import TaskManager, CommandSequence
 ```
 
-## Django Server
+# Django Server
 The Django server is really great; although, it is not the focus of this image because it is peripheral to the data analysis, and AWS Elasticbeanstlak does not support single Docker containers exporting multiple ports.
 
 First, create a new IPython notebook in Jupyter by using the `Django Shell-Plus` option.
