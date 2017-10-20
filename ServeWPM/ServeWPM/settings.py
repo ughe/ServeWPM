@@ -25,7 +25,10 @@ SECRET_KEY = 'nnc1v3o*$%u!pwxgm&3agkefi0pxsokzfnlzw#ond!do2nutu1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['servewpm.us-east-1.elasticbeanstalk.com', 'openwpm.us-east-1.elasticbeanstalk.com', '*.us-east-1.elasticbeanstalk.com', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'servewpm.us-east-1.elasticbeanstalk.com', 
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -38,10 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'data',
     'export',
-    # 'django_rest_framework',
-    # 'storages',
 ]
 
 MIDDLEWARE = [
@@ -128,5 +128,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = '/opt/app/ServeWPM/assets/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATIC_URL = '/static/'

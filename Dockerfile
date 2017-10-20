@@ -35,13 +35,8 @@ RUN python $INSTALL/ServeWPM/manage.py migrate
 
 # Run
 CMD Xvfb :99 -screen 0 1366x768x16 2>/dev/null >/dev/null & \
-    PATH=$PATH:$FRAMEWORK/firefox-bin && \
-    cd $NOTEBOOKS && \
-    python $INSTALL/ServeWPM/manage.py shell_plus --notebook & \
-    gunicorn ServeWPM.wsgi:application \
-    --bind 0.0.0.0:8000 \
-    --workers 3
+    PATH=$PATH:$FRAMEWORK/firefox-bin && cd $NOTEBOOKS && \
+    python $INSTALL/ServeWPM/manage.py shell_plus --notebook
 
-# Http port
+# Export Jupyter Port 8888. Django 8000 may work locally.
 EXPOSE 8888 8000
-
