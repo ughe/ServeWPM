@@ -27,6 +27,8 @@ RUN pip install -U -r requirements.txt
 
 # Install Notebooks
 ADD notebooks $NOTEBOOKS
+WORKDIR $NOTEBOOKS
+RUN git init
 
 # Djanga Migrations
 RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
