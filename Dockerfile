@@ -7,7 +7,7 @@ ENV FRAMEWORK $INSTALL/OpenWPM
 # Jupyter Config File
 ENV JUPYTER_CONFIG_DIR $INSTALL/ServeWPM
 # Display
-ENV DISPLAY :0
+ENV DISPLAY :99
 RUN export DISPLAY
 
 # Dependencies
