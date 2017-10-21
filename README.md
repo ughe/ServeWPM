@@ -4,7 +4,7 @@ ServeWPM is a docker image for running [OpenWPM](https://github.com/citp/OpenWPM
 ServeWPM can run OpenWPM locally with machines that have [Docker installed](https://www.docker.com/community-edition#/download). It can also be run remotely on AWS.
 
 ## Compontents
-There are three main components: the [OpenWPM](https://github.com/citp/OpenWPM) framework, the Jupyter Notebook server used to run the tests, and the Django ORM (Object-Relational Mapping) layer for working with OpenWPM's output.
+There are three main components: the OpenWPM framework, the Jupyter Notebook server used to run the tests, and the Django ORM (Object-Relational Mapping) layer for working with OpenWPM's output.
 
 # Building the image
 This step can take more than 10 minutes without any caching.
@@ -22,10 +22,10 @@ docker run -p 80:8888 -p 8000:8000 servewpm
 # Tutorial
 Go to the URL (i.e. [127.0.0.1](127.0.0.1/)), and open the `README.ipynb` Jupyter notebook. The notebook starts by running a version of the `demo.py` example program from OpenWPM. Once the website tests are run, the tutorial continues with examining the output files in a directory called `$PROJECT_NAME/`.
 
-N.B.: The password is `phosphoric3:historiographically` and the hash is set in the `ServeWPM/jupyter_notebook_config.py` file.
+N.B.: The password is `phosphoric3:historiographically` and the hash is set in `ServeWPM/jupyter_notebook_config.py`.
 
 # Structure
-The docker image creates three primary sibling directories: `OpenWPM`, the OpenWPM files; `ServeWPM`, the Django server with Jupyter integration; and `notebooks`, where all of the files are kept. 
+The docker image creates three primary sibling directories: `OpenWPM`, `ServeWPM` (django), and `notebooks`. 
 
 In `notebooks`, there is a special directory called `exports` where Django looks for the `crawl-data.sqlite` file.
 
@@ -64,5 +64,5 @@ First, compress four items together: the `Dockerfile`, `notebooks`, `ServeWPM` a
 
 For example, in unix you might use: `zip -r -X ServeWPM.zip .ebextensions Dockerfile notebooks ServeWPM`. On Windows, too, make sure to zip each individual item together, do not compress the parent directory.
 
-In the AWS console, go to [ElasticBeanstalk](https://console.aws.amazon.com/elasticbeanstalk). Create a new environment in a new application. For the `Platform` choose `Preconfigured platform` then `Docker`. For `Application Code` choose `Upload your code` and upload the compressed project. Finally, choose `Create environment`. The deploy should take at least ten minutes as it builds the image instead of using an uploaded one.
+In the AWS console, go to [ElasticBeanstalk](https://console.aws.amazon.com/elasticbeanstalk). Create a new environment in a new application. For the `Platform` choose `Preconfigured platform` then `Docker`. For `Application Code` choose `Upload your code` and upload the compressed project. Finally, choose `Create environment`. The deploy may take at least fifteen minutes as it builds the image instead of using a pre-built one.
 
