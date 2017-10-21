@@ -7,7 +7,7 @@ ENV FRAMEWORK $INSTALL/OpenWPM
 # Jupyter Config File
 ENV JUPYTER_CONFIG_DIR $INSTALL/ServeWPM
 # Display
-ENV DISPLAY :99
+ENV DISPLAY :0
 RUN export DISPLAY
 
 # Dependencies
@@ -36,8 +36,8 @@ RUN python $INSTALL/ServeWPM/manage.py makemigrations
 RUN python $INSTALL/ServeWPM/manage.py migrate
 
 # Run
-CMD Xvfb :99 -screen 0 1366x768x16 2>/dev/null >/dev/null & \
-    PATH=$PATH:$FRAMEWORK/firefox-bin && cd $NOTEBOOKS && \
+CMD Xvfb $DISPLAY -screen 0 1366x768x16 2>/dev/null >/dev/null & \
+    cd $NOTEBOOKS && \
     python $INSTALL/ServeWPM/manage.py shell_plus --notebook
 
 # Export Jupyter Port 8888. Django 8000 may work locally.
