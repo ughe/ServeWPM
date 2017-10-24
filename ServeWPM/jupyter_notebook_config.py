@@ -1,10 +1,26 @@
-# Configuration file for jupyter-notebook.
-
-c.NotebookApp.allow_root=True
+# Imports
+import os
 
 #------------------------------------------------------------------------------
 # JupyterApp(Application) configuration
 #------------------------------------------------------------------------------
+
+c.NotebookApp.allow_root=True
+
+## Hashed password to use for web authentication.
+#  
+#  To generate, type in a python/IPython shell:
+#  
+#    from notebook.auth import passwd; passwd()
+#  
+#  The string should be of the form type:salt:hashed-password.
+c.NotebookApp.password = str(os.environ['JUPYTER_PASSWORD_HASH'])
+
+## The IP address the notebook server will listen on.
+c.NotebookApp.ip = str(os.environ['HOST_IP'])
+
+## The port the notebook server will listen on.
+c.NotebookApp.port = 80
 
 ## Base class for Jupyter applications
 
@@ -78,34 +94,22 @@ c.NotebookApp.allow_root=True
 #  limited.
 #c.NotebookApp.iopub_msg_rate_limit = 1000
 
-## The IP address the notebook server will listen on.
-c.NotebookApp.ip = '0.0.0.0' # '*.us-east-1.elasticbeanstalk.com'
-
 ## The MathJax.js configuration file that is to be used.
 #c.NotebookApp.mathjax_config = 'TeX-AMS-MML_HTMLorMML-full,Safe'
 
 ## Dict of Python modules to load as notebook server extensions.Entry values can
 #  be used to enable and disable the loading ofthe extensions. The extensions
 #  will be loaded in alphabetical order.
-c.NotebookApp.nbserver_extensions = {}
+# c.NotebookApp.nbserver_extensions = {}
 
 ## The directory to use for notebooks and kernels.
-c.NotebookApp.notebook_dir = u'/opt/app/notebooks'
+c.NotebookApp.notebook_dir = str(os.environ['NOTEBOOKS'])
 
 ## Whether to open in a browser after starting. The specific browser used is
 #  platform dependent and determined by the python standard library `webbrowser`
 #  module, unless it is overridden using the --browser (NotebookApp.browser)
 #  configuration option.
 c.NotebookApp.open_browser = False
-
-## Hashed password to use for web authentication.
-#  
-#  To generate, type in a python/IPython shell:
-#  
-#    from notebook.auth import passwd; passwd()
-#  
-#  The string should be of the form type:salt:hashed-password.
-c.NotebookApp.password = u'sha1:7b344c9e4d72:1a75c82340ec9bb675e28ae562c27aa22f9b6f29'
 
 ## Forces users to use a password for the Notebook server. This is useful in a
 #  multi user environment, for instance when everybody in the LAN can access each
@@ -114,9 +118,6 @@ c.NotebookApp.password = u'sha1:7b344c9e4d72:1a75c82340ec9bb675e28ae562c27aa22f9
 #  In such a case, server the notebook server on localhost is not secure since
 #  any user can connect to the notebook server via ssh.
 #c.NotebookApp.password_required = False
-
-## The port the notebook server will listen on.
-# c.NotebookApp.port = 8888
 
 ## DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
 # c.NotebookApp.pylab = 'disabled'
@@ -148,7 +149,7 @@ c.Session.username = u'admin'
 #------------------------------------------------------------------------------
 
 ## Glob patterns to hide in file and directory listings.
-c.ContentsManager.hide_globs = [u'__pycache__', '*.pyc', '*.pyo', '.DS_Store', '*.so', '*.dylib', '*~']
+#c.ContentsManager.hide_globs = [u'__pycache__', '*.pyc', '*.pyo', '.DS_Store', '*.so', '*.dylib', '*~']
 
 ## Python callable or importstring thereof
 #  

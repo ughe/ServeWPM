@@ -20,14 +20,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nnc1v3o*$%u!pwxgm&3agkefi0pxsokzfnlzw#ond!do2nutu1'
+SECRET_KEY = str(os.environ['DJANGO_SECRET_KEY'])
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'servewpm.us-east-1.elasticbeanstalk.com', 
-    '127.0.0.1'
+    '127.0.0.1',
+    str(os.environ['HOST_IP']),
+    '.amazonaws.com',
+    '.elastibeanstalk.com',
 ]
 
 
@@ -85,7 +87,7 @@ DATABASES = {
     },
     'export': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/opt/app/notebooks/export/crawl-data.sqlite',
+        'NAME': os.path.join(str(os.environ['NOTEBOOKS']), 'export/crawl-data.sqlite'),
     },
 }
 

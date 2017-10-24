@@ -1,28 +1,34 @@
 FROM ubuntu:14.04
 
-# ENV variable
+# ARGS
+ARG DJANGO_SECRET_KEY
+ARG HOST_IP
+ARG JUPYTER_PASSWORD_HASH
+ENV DJANGO_SECRET_KEY ${DJANGO_SECRET_KEY}
+ENV HOST_IP ${HOST_IP}
+ENV JUPYTER_PASSWORD_HASH ${JUPYTER_PASSWORD_HASH}
+
+# ENV variables
 ENV INSTALL /opt/app
 ENV NOTEBOOKS $INSTALL/notebooks
 ENV FRAMEWORK $INSTALL/OpenWPM
-# Jupyter Config File
-ENV JUPYTER_CONFIG_DIR $INSTALL/ServeWPM
-# Display
+ENV DJANGO $INSTALL/ServeWPM
+ENV JUPYTER_CONFIG_DIR $DJANGO
 ENV DISPLAY :99
-RUN export DISPLAY
 
 # Dependencies
 RUN apt-get update -y
-RUN apt-get install -y git gunicorn sqlite3 libsqlite3-dev vim
+RUN apt-get install -y git gunicorn sqlite3 vim
 RUN apt-get install -y xfonts-scalable xfonts-100dpi xfonts-75dpi xfonts-cyrillic
 
 # Install OpenWPM
-RUN git clone https://github.com/citp/OpenWPM $INSTALL/OpenWPM
-WORKDIR $INSTALL/OpenWPM
+RUN git clone https://github.com/citp/OpenWPM $FRAMEWORK
+WORKDIR $FRAMEWORK
 RUN echo Y | ./install.sh
 
 # Install ServeWPM
-ADD ServeWPM $INSTALL/ServeWPM
-WORKDIR $INSTALL/ServeWPM
+ADD ServeWPM $DJANGO
+WORKDIR $DJANGO
 RUN pip install -U -r requirements.txt
 
 # Install Notebooks
@@ -30,15 +36,15 @@ ADD notebooks $NOTEBOOKS
 WORKDIR $NOTEBOOKS
 RUN git init
 
-# Djanga Migrations
-RUN echo yes | python $INSTALL/ServeWPM/manage.py collectstatic
-RUN python $INSTALL/ServeWPM/manage.py makemigrations
-RUN python $INSTALL/ServeWPM/manage.py migrate
+# Django
+RUN echo yes | python $DJANGO/manage.py collectstatic && \
+    python $DJANGO/manage.py makemigrations && \
+    python $DJANGO/manage.py migrate
 
-# Run
+# Run Django Server (optional) and 
 CMD Xvfb $DISPLAY -screen 0 1366x768x16 2>/dev/null >/dev/null & \
     cd $NOTEBOOKS && \
     python $INSTALL/ServeWPM/manage.py shell_plus --notebook
 
-# Export Jupyter Port 8888. Django 8000 may work locally.
-EXPOSE 8888 8000
+# Export Jupyter Port 80. Django 8000.
+EXPOSE 80 8000
