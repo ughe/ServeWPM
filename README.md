@@ -11,6 +11,8 @@ There are three main components: the OpenWPM framework, the Jupyter Notebook ser
 ## Building the image
 This step can take more than 10 minutes without any caching.
 
+You will need to have [docker](https://www.docker.com/community-edition#/download) installed, as well as [django](https://www.djangoproject.com/download/) and [jupyter](http://jupyter.org/install.html). 
+
 The `passwd()` function will prompt for a **new password** that is used to protect the Jupyter Notebook.
 ```bash
 git clone https://github.com/ughe/ServeWPM ServeWPM
@@ -22,6 +24,8 @@ docker build \
     -t servewpm .
 ```
 
+N.B.: The `Dockerfile` pulls the latest files from the `OpenWPM` git repo, and it can be modified to use a tagged release `curl -L https://github.com/citp/OpenWPM/archive/v0.8.0.zip -o OpenWPM.zip` etc... if needed.
+
 ## Running the docker container
 This deploys the Jupyter notebook to Port 80. Also opens port 8000 for the optional Django server. The `-d` flag can be added to run the docker container in the background.
 ```bash
@@ -30,8 +34,6 @@ docker run -p 80:80 -p 8000:8000 servewpm
 
 ## Tutorial
 Go to the URL (i.e. [127.0.0.1](127.0.0.1/)), and open the `README.ipynb` Jupyter notebook. The notebook starts by running a version of the `demo.py` example program from OpenWPM. Once the website tests are run, the tutorial continues with examining the output files in a directory called `$PROJECT_NAME/` using the Django ORM and Sqlite3.
-
-N.B.: The password is the value set when the image was built.
 
 ## More Docker Commands
 
@@ -48,7 +50,7 @@ docker save servewpm -o servewpm.tar
 docker load -i servewpm.tar
 ```
 
-### Halting ALL docker containers
+### Halting all docker containers
 ```bash
 docker kill $(docker ps -q)
 ```
@@ -68,6 +70,8 @@ from automation import TaskManager, CommandSequence
 # Django Server
 The Django Server provides a framework for interacting with the ORM and serving web pages.
 
+Static files are currently not being served. To see css and other static files, set `DEBUG = True` in the file `ServeWPM/ServeWPM/settings.py`.
+
 To log into the admin site, the credentials need to be set up. First, create a new IPython notebook in Jupyter by using the `Django Shell-Plus` option.
 
 Next, create a superuser (admin):
@@ -85,14 +89,17 @@ For reference, the Django `export` models were generated with `python $DJANGO/ma
 ServeWPM is fine for local development. It is not advised to deploy online without caution. Security concerns include Jupyter Notebook's root access, password handling, and more. 
 
 ## EC2
-Manually deploying to an EC2 instance is one option. 
+To deploy to EC2, first build the image locally as described above. Then run `docker save servewpm -o servewpm.tar`.
 
-After configuring a new instance, including its Security Group, and launching it, create a key pair. Then select the instance on the dashboard and choose `Connect`. Replace `EC2`, below, with the dns (i.e. ec2-xx-xxx-xxx-xx.compute-1.amazonaws.com) of the instance. Also replace `CERT` with the path to the certificate. `servewpm.tar` should be in the current working directory. Then run the script below.
+Next [launch](https://console.aws.amazon.com/ec2#LaunchInstanceWizard) a new EC2 instance, and configure it, including the Security Group to expose ports 80 (jupyter) and 8000 (django). Also create a key pair when prompted and save it in the current working directory. 
+
+Then select the instance on the [dashboard](https://console.aws.amazon.com/ec2/#Instances) and choose `Connect`. Replace `EC2`, below, with the Public DNS shown (i.e. ec2-user@ec2-48-458-381-20.compute-1.amazonaws.com) for the instace. Also replace `CERT` with the path to the certificate generated previously. `servewpm.tar` should be in the current working directory. Then run the script below.
 
 ```bash
-CERT="certificate.pem"
-# i.e. EC2=ec2-user@ec2-48-458-381-20.compute-1.amazonaws.com
-EC2=
+# Replace the values below
+CERT=certificate.pem
+EC2=ec2-user@ec2-xx-xxx-xxx-xx.compute-1.amazonaws.com
+
 scp -i $CERT servewpm.tar $EC2:/home/ec2-user
 ssh -i $CERT $EC2 sudo yum update -y
 ssh -i $CERT $EC2 sudo yum install -y docker
