@@ -53,16 +53,3 @@ Run this command next in the notebook to start the server:
 Finally, go to admin on the 8000 port (i.e. [127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)) and log in.
 
 For reference, the models were generated with `python $JUPYTER_CONFIG_DIR/manage.py inspectdb > $JUPYTER_CONFIG_DIR/export/models.py`. The output file `models.py` needs to be edited to conform to Django's rules about `id`'s.
-
-# Deploying to AWS
-
-## Warning:
-ServeWPM is fine for local development. It is not advised to deploy online without caution. Security concerns include Jupyter Notebook's root access, preset passwords, [secret key](https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-SECRET_KEY), and more. 
-
-## Process
-First, compress four items together: the `Dockerfile`, `notebooks`, `ServeWPM` and `.ebextensions`.
-
-For example, in unix you might use: `zip -r -X ServeWPM.zip .ebextensions Dockerfile notebooks ServeWPM`. On Windows, too, make sure to zip each individual item together, do not compress the parent directory.
-
-In the AWS console, go to [ElasticBeanstalk](https://console.aws.amazon.com/elasticbeanstalk). Create a new environment in a new application. For the `Platform` choose `Preconfigured platform` then `Docker`. For `Application Code` choose `Upload your code` and upload the compressed project. Finally, choose `Create environment`. The deploy may take at least fifteen minutes as it builds the image instead of using a pre-built one.
-

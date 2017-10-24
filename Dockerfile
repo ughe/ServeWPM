@@ -18,7 +18,7 @@ RUN apt-get install -y xfonts-scalable xfonts-100dpi xfonts-75dpi xfonts-cyrilli
 # Install OpenWPM
 RUN git clone https://github.com/citp/OpenWPM $INSTALL/OpenWPM
 WORKDIR $INSTALL/OpenWPM
-RUN echo Y | sudo ./install.sh
+RUN echo Y | ./install.sh
 
 # Install ServeWPM
 ADD ServeWPM $INSTALL/ServeWPM
